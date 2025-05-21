@@ -1,0 +1,33 @@
+<aside class="col-md-3 col-12 mb-4">
+    <!-- SIDEBAR -->
+    <ul class="list-group">
+        <a class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'dashboard' %}active bg-primary text-white{% endif %}" href="{% url 'dashboard' %}">
+            Dashboard
+        </a>
+        <a class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'my_orders' %}active bg-primary text-white{% endif %}" href="{% url 'my_orders' %}">
+            My Orders
+        </a>
+        <a class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'edit_profile' %}active bg-primary text-white{% endif %}" href="{% url 'edit_profile' %}">
+            Edit Profile
+        </a>
+        <a class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'change_password' %}active bg-primary text-white{% endif %}" href="{% url 'change_password' %}">
+            Change Password
+        </a>
+    </ul>
+    <br>
+    <a class="btn btn-danger w-100" href="{% url 'logout' %}">
+        <i class="fa fa-power-off"></i> <span class="text">Log out</span>
+    </a>
+    <!-- SIDEBAR END -->
+</aside>
+
+<style>
+    .list-group-item:hover {
+        background-color:rgba(233, 222, 230, 0.77);
+        color: #000;
+    }
+    .list-group-item.active:hover {
+        background-color:rgb(13, 145, 253); /* Bootstrap primary */
+        color: #fff;
+    }
+</style>

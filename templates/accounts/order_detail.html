@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - {{ order.order_number }}</title>
+
+    <!-- Meta -->
+    <meta name="Description" content="Invoice for order {{ order.order_number }}">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .invoice-container {
+            background: #fff;
+            border-radius: 8px;
+        }
+
+        .invoice-header {
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .invoice-header h2 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 576px) {
+            .invoice-container {
+                padding: 2rem 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media print {
+            .btn, .navbar, footer {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .invoice-container {
+                box-shadow: none;
+                padding: 0;
+            }
+            img {
+                margin : auto;
+                display: block !important;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container-fluid p-4 invoice-container shadow-sm bg-dark">
+    
+
+    <div class="card p-4 shadow">
+        <!-- Logo & Company Info -->
+    <div class="text-center my-4">
+        <img src="{% static 'images/logo/logo.png' %}" alt="Logo" class="img-fluid" style="max-height: 80px; filter: brightness(0) invert(0);">
+    </div>
+    
+        <!-- Invoice Header -->
+        <div class="invoice-header text-center mb-4">
+            <h2>Shopping Invoice</h2>
+        </div>
+
+        <!-- Order and Billing Details -->
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <h5 class="text-primary text-center"><hr> Order Details <hr></h5>
+                <p>Order Number: <strong>{{ order.order_number }}</strong></p>
+                <p>Transaction ID: <strong>{{ order.payment.payment_id }}</strong></p>
+                <p>Order Date: <strong>{{ order.created_at|date:"M d, Y H:i A" }}</strong></p>
+                <p>Payment Status: <strong class="text-success">{{ order.payment.status }}</strong></p>
+            </div>
+
+            <div class="col-md-6 text-md-end mt-4 mt-md-0">
+                <h5 class="text-primary text-center"><hr> Billed To <hr></h5>
+                <p>Name: <strong>{{ order.full_name }}</strong></p>
+                <p>Address: <strong>{{ order.full_address }}</strong></p>
+                <p>City/State: <strong>{{ order.city }}, {{ order.state }}</strong></p>
+                <p>Country: <strong>{{ order.country }}</strong></p>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if order_detail %}
+                        {% for item in order_detail %}
+                        <tr>
+                            <td>
+                                {{ item.product.product_name }}
+                                {% if item.variations.all %}
+                                    <br>
+                                    <small class="text-muted">
+                                        {% for variation in item.variations.all %}
+                                            {{ variation.variation_category }}: {{ variation.variation_value }}<br>
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </td>
+                            <td class="text-center align-middle">{{ item.quantity }}</td>
+                            <td class="text-center align-middle">$ {{ item.product_price|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">No items found in this order.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-right"><strong>Subtotal:</strong></td>
+                        <td class="text-center">$ {{ subtotal|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-right"><strong>Tax:</strong></td>
+                        <td class="text-center">$ {{ order.tax|floatformat:2 }}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td colspan="2" class="text-right"><strong>Grand Total:</strong></td>
+                        <td class="text-center font-weight-bold">$ {{ order.order_total|floatformat:2 }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="text-center mt-4">
+            <p class="text-muted">Thank you for shopping with us!</p>
+            <a href="javascript:window.history.back();" class="btn btn-outline-danger">Back</a>
+            <button class="btn btn-outline-primary" onclick="window.print()">Print Invoice</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

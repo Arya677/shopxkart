@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main-content %}
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		
+<div class="card shadow-lg">
+    <article class="filter-group">
+        <header class="card-header bg-primary text-white">
+            <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="d-flex justify-content-between align-items-center text-white">
+                <h6 class="title mb-0">Categories</h6>
+                <i class="icon-control fa fa-chevron-down"></i>
+            </a>
+        </header>
+        <div class="filter-content collapse show" id="collapse_1">
+            <div class="card-body">
+                <ul class="list-menu list-unstyled">
+                    <li>
+                        <a class="dropdown-item text-dark hover-shadow" href='{% url "store" %}'>
+                            <i class="fa fa-home mr-2"></i> All Products
+                        </a>
+                    </li>
+                    {% for category in links %}
+                        <li>
+                            <a class="dropdown-item text-dark hover-shadow" href="{{ category.get_url }}">
+                                <i class="fa fa-tag mr-2"></i> {{ category.category_name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div> <!-- card-body.// -->
+        </div>
+    </article> <!-- filter-group  .// -->
+</div>
+<!-- card.// -->
+
+	</aside> <!-- col.// -->
+	<main class="col-md-9">
+
+<header class="border-bottom mb-4 pb-3">
+		<div class="form-inline">
+			<span class="mr-md-auto">Found <b>{{product_count}}</b> Items count</span>
+		</div>
+</header><!-- sect-heading -->
+
+<div class="row">
+	{% if products %}
+	{% for product in products %}
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<div class="img-wrap"> 
+				
+				<a href="{{ product.get_url }}"><img src="{{product.images.url}}"></a>
+				
+			</div> <!-- img-wrap.// -->
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<a href="{{ product.get_url }}" class="title">{{product.product_name}}</a>
+					<div class="price-wrap mt-2">
+						<span class="price text-secondary">$ {{product.price}}</span>
+					</div> <!-- price-wrap.// -->
+				</div>
+				<a href="{{ product.get_url }}" class="btn btn-block btn-outline-info">View Details </a>
+			</figcaption>
+		</figure>
+	</div>
+	{% endfor %} <!-- col.// -->
+	{% else %}
+	<div class="col-md-12">
+		<h2 class=" text-center text-gray-light  " >No result found. Please try again.</h2>
+	</div>
+	{% endif %}
+</div> <!-- row end.// -->
+
+
+<nav class="mt-4" aria-label="Page navigation sample">  
+  {% if products.has_other_pages %} 
+  <ul class="pagination">
+    {% if products.has_previous %}
+    <li class="page-item">
+		<a class="page-link" href="?page={{products.previous_page_number}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+    {% for i in products.paginator.page_range %}
+      {% if products.number == i %}
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="?page={{i}}">{{i}}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{i}}">{{i}}</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+    {% if products.has_next %} 
+    <li class="page-item"> 
+      <a class="page-link" href="?page={{products.next_page_number}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  {% endif %}
+</nav>
+
+	</main> <!-- col.// -->
+
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<style>
+	.hover-shadow:hover {
+    	box-shadow: 0 4px 8px rgba(97, 97, 97, 0.37);
+    	transition: box-shadow 0.3s ease-in-out;
+}
+</style>
+{% endblock main-content %}

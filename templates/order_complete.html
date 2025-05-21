@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main-content %}
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        .invert-on-dark {
+        filter: invert(1) brightness(1.2);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .invoice-container {
+            padding: 1rem;
+        }
+        .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        .table th, .table td {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container-fluid p-4 invoice-container bg-light">
+
+    <div class="card shadow p-4">
+        <!-- Logo & Info -->
+        <div class="text-center mb-4">
+            <img src="{% static 'images/logo/logo.png' %}" alt="Logo" class="img-fluid invert-on-dark" style="max-height: 80px;">
+            <p class="text-muted mb-0">123 Business St, City, Country</p>
+        </div>
+        
+        <!-- Title -->
+        <div class="text-center mb-4">
+            <h2 class="text-white bg-primary py-3 rounded">Shopping Invoice</h2>
+        </div>
+
+        <!-- Order + Billing -->
+        <div class="row gy-4">
+            <div class="col-md-6">
+                <h5 class="text-primary text-center"><hr>Order Details<hr></h5>
+                <p>Order Number: <strong>{{ order_number }}</strong></p>
+                <p>Transaction ID: <strong>{{ transID }}</strong></p>
+                <p>Order Date: <strong>{{ order.created_at }}</strong></p>
+                <p>Payment Status: <strong class="text-success">{{ payment.status }}</strong></p>
+            </div>
+            <div class="col-md-6 text-md">
+                <h5 class="text-primary text-center"><hr>Billed To<hr></h5>
+                <p>Name: <strong>{{ order.full_name }}</strong></p>
+                <p>Address: <strong>{{ order.full_address }}</strong></p>
+                <p>Location: <strong>{{ order.city }}, {{ order.state }}</strong></p>
+                <p>Country: <strong class="text-primary">{{ order.country }}</strong></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Product Table -->
+        <div class="table-responsive mt-4">
+            <table class="table table-striped table-bordered text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in ordered_products %}
+                    <tr>
+                        <td class="text-start">
+                            {{ item.product.product_name }}
+                            {% if item.variations.all %}
+                                <br>
+                                <small class="text-muted">
+                                    {% for variation in item.variations.all %}
+                                        {{ variation.variation_category }}: {{ variation.variation_value }}<br>
+                                    {% endfor %}
+                                </small>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.product_price|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" class="text-end"><strong>Subtotal:</strong></td>
+                        <td>${{ subtotal|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-end"><strong>Tax:</strong></td>
+                        <td>${{ order.tax|floatformat:2 }}</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td colspan="2" class="text-end"><strong>Grand Total:</strong></td>
+                        <td><strong>${{ order.order_total|floatformat:2 }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="text-center mt-4">
+            <p class="text-muted">Thank you for shopping with us!</p>
+            <a href="{% url 'store' %}" class="btn btn-outline-danger me-2 mb-2">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

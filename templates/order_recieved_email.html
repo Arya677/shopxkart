@@ -1,0 +1,27 @@
+{% autoescape off %}
+
+Subject: 🧾 Your Order Confirmation – Shop X Kart Order #{{ order.order_number }}
+
+Hi {{ user.first_name }} {{ user.last_name }},
+
+Thank you for shopping with **Shop X Kart**!
+
+We're happy to let you know that we've received your order. Below are the details for your reference:
+
+─────────────────────────────────────────────────────────
+🆔 Order Number : {{ order.order_number }}
+📅 Order Date   : {{ order.created_at:"F j, Y" }}
+💰 Total Amount : ${{ order.grand_total|floatformat:2 }}
+─────────────────────────────────────────────────────────
+
+You will receive another email once your order is shipped.
+
+If you have any questions or need help, feel free to reply to this email or contact our support team.
+
+Thank you once again for choosing **Shop X Kart**. We look forward to serving you again soon!
+
+Warm regards,  
+The Shop X Kart Team
+
+{% endautoescape %}
+

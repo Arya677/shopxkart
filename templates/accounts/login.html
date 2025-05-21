@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main-content %}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y" style="min-height:84vh">
+
+<!-- ============================ COMPONENT LOGIN   ================================= -->
+<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+  <div class="card-body">
+      <h4 class="card-title mb-4 text-center">Sign in</h4>
+      {% include "alerts.html" %}
+      <form action="{% url 'login' %}" method="POST">
+          {% csrf_token %}
+          
+          <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+          </div> <!-- form-group// -->
+          
+          <div class="form-group position-relative">
+              <input type="password" class="form-control pr-5" placeholder="Password" name="password" id="password" required>
+              <span id="toggle-password" class="position-absolute" style="top: 50%; transform: translateY(-50%); right: 15px; cursor: pointer;">
+                  <i class="fa fa-eye" id="eye-icon"></i>
+              </span>
+          </div> <!-- form-group// -->
+          
+          <div class="form-group">
+              <a href='{% url "forgotPassword" %}'' class="float-right">Forgot password?</a> 
+          </div> <!-- form-group// -->
+          
+          <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </div> <!-- form-group// --> 
+          {{form.email_errors}}
+          {{form.password_errors}}
+		  {{form.non_fields_errors}}
+      </form>
+  </div> <!-- card-body.// -->
+</div> <!-- card .// -->
+
+     <p class="text-center mt-4">Don't have account? <a href='{% url "register" %}'>Sign up</a></p>
+     <br><br>
+<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+<script>
+  // Toggle password visibility
+  document.getElementById('toggle-password').addEventListener('click', function() {
+      var passwordField = document.getElementById('password');
+      var eyeIcon = document.getElementById('eye-icon');
+      
+      if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+      } else {
+          passwordField.type = 'password';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+      }
+  });
+</script>
+
+
+
+{% endblock main-content %}

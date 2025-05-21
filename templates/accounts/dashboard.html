@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main-content %}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y bg-light" style="min-height: 100vh;">
+    {% include "alerts.html" %}
+    <div class="container py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            {% include "dashboard_sidebar.html" %}
+
+            <!-- Main Content -->
+            <main class="col-md-9 col-12">
+                <div class="card shadow-sm">
+                    <header class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <strong>Logged in as:</strong>
+                        <span>{{ user.full_name }}</span>
+                    </header>
+
+                    <div class="card-body" style="max-height: auto;">
+                        <div class="row g-4">
+                            <!-- Orders Card -->
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm h-100 text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-muted">Total Orders</h5>
+                                        <h2 class="card-text text-primary">{{ orders_count }}</h2>
+                                        <a href="{% url 'my_orders' %}" class="btn btn-outline-primary mt-2">View Orders</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Profile Info Card -->
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm h-100 text-center">
+                                    <div class="card-body">
+                                        <div class="mx-auto" style="width: 100px; height: 100px; overflow: hidden; border-radius: 50px;">
+                                        {% if userprofile.profile_picture %}
+                                            <img src="{{ userprofile.profile_picture.url }}" alt="Profile Picture"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        {% else %}
+                                            <img src="{% static 'images/default-profile.jpg' %}" alt="Default Profile"
+                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                        {% endif %}
+                                        </div>
+                                        <p class="mb-1 fw-bold">{{ user.email }}</p>
+                                        <p class="text-muted">{{ user.phone_number }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add more dashboard widgets below as needed -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock main-content %}
