@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = config('DEBUG',default=False ,cast=bool) # True or False
+DEBUG = config('DEBUG',cast=bool) # True or False
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 
