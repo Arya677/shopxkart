@@ -142,7 +142,7 @@ def place_order(request, total=0, quantity=0):
                 # Mark order as complete immediately for COD
                 order.is_ordered = True
                 order.payment_method = 'COD'
-                order.payment_status = 'Unpaid' 
+                order.payment_status = 'UnPaid' 
                 order.status = 'Accepted'  # Optional
                 order.save()
 
@@ -273,27 +273,32 @@ def order_success_cod(request):
     else:
         return redirect('checkout')
 
-    
 def order_complete(request):
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')  # Might be None for COD
 
     try:
+        # Get order
         order = Order.objects.get(order_number=order_number, is_ordered=True)
         ordered_products = OrderProduct.objects.filter(order_id=order.id)
 
-        subtotal = 0 
-        for i in ordered_products:
-            subtotal += (i.product.price * i.quantity)
+        # Calculate subtotal
+        subtotal = 0
+        for item in ordered_products:
+            subtotal += item.product.price * item.quantity
 
-        # Use .filter().first() to avoid DoesNotExist error for COD
-        payment = Payment.objects.filter(payment_id=transID).first()
-
+        # If no payment_id (i.e. COD), generate a fake ID
+        if not transID:
+            transID = f"COD-{order_number}"
+            payment = None
+        else:
+            payment = Payment.objects.filter(payment_id=transID).first()
+        print(f"DEBUG: order_number={order_number}, transID={transID}")
         context = {
             'order': order,
-            'ordered_products': ordered_products, 
+            'ordered_products': ordered_products,
             'order_number': order.order_number,
-            'transID': transID if transID else "COD",
+            'transID': transID,
             'payment': payment,
             'subtotal': subtotal,
         }
