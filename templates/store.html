@@ -12,35 +12,36 @@
 
 <div class="row">
 	<aside class="col-md-3">
-		
-<div class="card shadow-lg">
+
+    <div class="card shadow-lg">
     <article class="filter-group">
         <header class="card-header bg-primary text-white">
-            <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="d-flex justify-content-between align-items-center text-white">
+            <a href="#" data-bs-toggle="collapse" data-bs-target="#categoryCollapse" aria-expanded="true"
+               class="d-flex justify-content-between align-items-center text-white">
                 <h6 class="title mb-0">Categories</h6>
-                <i class="icon-control fa fa-chevron-down"></i>
+                <i class="icon-control fa fa-chevron-down rotate-icon"></i>
             </a>
         </header>
-        <div class="filter-content collapse show" id="collapse_1">
+        <div class="filter-content collapse show" id="categoryCollapse">
             <div class="card-body">
-                <ul class="list-menu list-unstyled">
+                <ul class="list-menu list-unstyled mb-0">
                     <li>
-                        <a class="dropdown-item text-dark hover-shadow" href='{% url "store" %}'>
+                        <a class="category-link text-dark d-flex align-items-center" href="{% url 'store' %}">
                             <i class="fa fa-home mr-2"></i> All Products
                         </a>
                     </li>
                     {% for category in links %}
-                        <li>
-                            <a class="dropdown-item text-dark hover-shadow" href="{{ category.get_url }}">
-                                <i class="fa fa-tag mr-2"></i> {{ category.category_name }}
-                            </a>
-                        </li>
+                    <li>
+                        <a class="category-link text-dark d-flex align-items-center" href="{{ category.get_url }}">
+                            <i class="fa fa-tag mr-2"></i> {{ category.category_name }}
+                        </a>
+                    </li>
                     {% endfor %}
                 </ul>
-            </div> <!-- card-body.// -->
+            </div>
         </div>
-    </article> <!-- filter-group  .// -->
-</div>
+    </article>
+</div><br>
 <!-- card.// -->
 
 	</aside> <!-- col.// -->
@@ -57,10 +58,10 @@
 	{% for product in products %}
 	<div class="col-md-4">
 		<figure class="card card-product-grid">
-			<div class="img-wrap"> 
-				
+			<div class="img-wrap">
+
 				<a href="{{ product.get_url }}"><img src="{{product.images.url}}"></a>
-				
+
 			</div> <!-- img-wrap.// -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
@@ -82,8 +83,8 @@
 </div> <!-- row end.// -->
 
 
-<nav class="mt-4" aria-label="Page navigation sample">  
-  {% if products.has_other_pages %} 
+<nav class="mt-4" aria-label="Page navigation sample">
+  {% if products.has_other_pages %}
   <ul class="pagination">
     {% if products.has_previous %}
     <li class="page-item">
@@ -111,8 +112,8 @@
       </li>
       {% endif %}
     {% endfor %}
-    {% if products.has_next %} 
-    <li class="page-item"> 
+    {% if products.has_next %}
+    <li class="page-item">
       <a class="page-link" href="?page={{products.next_page_number}}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
@@ -137,10 +138,32 @@
 </div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
+
 <style>
+      .category-link {
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        padding: 8px 12px;
+    }
+
+    .category-link:hover {
+        background-color: #e9ecef; /* Light gray background on hover */
+        color: #0d6efd !important; /* Bootstrap primary color */
+        text-decoration: none;
+    }
+
+    .category-link i {
+        transition: color 0.3s ease;
+    }
+
+    .category-link:hover i {
+        color: #0d6efd; /* Icon color on hover */
+    }
+
 	.hover-shadow:hover {
     	box-shadow: 0 4px 8px rgba(97, 97, 97, 0.37);
     	transition: box-shadow 0.3s ease-in-out;
-}
+    }
 </style>
+
 {% endblock main-content %}

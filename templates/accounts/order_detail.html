@@ -87,23 +87,40 @@
         </div>
 
         <!-- Order and Billing Details -->
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <h5 class="text-primary text-center"><hr> Order Details <hr></h5>
-                <p>Order Number: <strong>{{ order.order_number }}</strong></p>
-                <p>Transaction ID: <strong>{{ order.payment.payment_id }}</strong></p>
-                <p>Order Date: <strong>{{ order.created_at|date:"M d, Y H:i A" }}</strong></p>
-                <p>Payment Status: <strong class="text-success">{{ order.payment.status }}</strong></p>
-            </div>
+<!-- Order and Billing Details -->
+<div class="row mt-3">
+    <div class="col-md-6">
+        <h5 class="text-primary text-center"><hr> Order Details <hr></h5>
+        <p>Order Number: <strong>{{ order.order_number }}</strong></p>
+        <p>Transaction ID: <strong>{{ order.payment.payment_id }}</strong></p>
+        <p>Order Date: <strong>{{ order.created_at|date:"M d, Y H:i A" }}</strong></p>
+        
+        <!-- New table for Payment Status -->
+        <table class="table table-bordered mt-3" style="max-width: 300px;">
+            <tbody>
+                <tr>
+                    <th scope="row">Payment Status</th>
+                    <td>
+                        {% if order.payment_status == 'Paid' %}
+                            <span class="badge badge-success">Paid</span>
+                        {% else %}
+                            <span class="badge badge-danger">Unpaid</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-            <div class="col-md-6 text-md-end mt-4 mt-md-0">
-                <h5 class="text-primary text-center"><hr> Billed To <hr></h5>
-                <p>Name: <strong>{{ order.full_name }}</strong></p>
-                <p>Address: <strong>{{ order.full_address }}</strong></p>
-                <p>City/State: <strong>{{ order.city }}, {{ order.state }}</strong></p>
-                <p>Country: <strong>{{ order.country }}</strong></p>
-            </div>
-        </div>
+    <div class="col-md-6 text-md-end mt-4 mt-md-0">
+        <h5 class="text-primary text-center"><hr> Billed To <hr></h5>
+        <p>Name: <strong>{{ order.full_name }}</strong></p>
+        <p>Address: <strong>{{ order.full_address }}</strong></p>
+        <p>City/State: <strong>{{ order.city }}, {{ order.state }}</strong></p>
+        <p>Country: <strong>{{ order.country }}</strong></p>
+    </div>
+</div>
+
 
         <!-- Products Table -->
         <div class="table-responsive mt-4">
@@ -164,6 +181,7 @@
             <button class="btn btn-outline-primary" onclick="window.print()">Print Invoice</button>
         </div>
     </div>
+    
 </div>
 
 <!-- Scripts -->

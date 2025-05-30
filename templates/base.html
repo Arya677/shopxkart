@@ -34,6 +34,7 @@
 
   <!-- Additional Styles -->
   <style>
+    
     @media (max-width: 992px) {
       .navbar-nav > li {
         margin-top: 0.5rem;
@@ -140,51 +141,62 @@
 {% block main-content %}{% endblock main-content %}
 
 <!-- ========================= FOOTER ========================= -->
-        
-<footer class="footer animated-footer text-white pt-5" style="background: linear-gradient(40deg,rgb(20, 20, 20),rgb(50, 50, 50),rgb(100, 100, 100));">
+<footer class="footer text-white pt-5 pb-4" style="background: linear-gradient(45deg, #1f1d1d, #323232, #646464);">
   <div class="container">
     <div class="row gy-4">
+
       <!-- Company Info -->
-      <div class="col-md-6">
-        <h5 class="text-uppercase mb-3">Shop X Kart</h5>
-        <p>
+      <div class="col-md-4">
+        <a class="navbar-brand text-white mb-3 d-block fs-4 fw-bold" href="/">ShopXkart</a>
+        <p class="small">
           Shop X Kart is your go-to online store for tech, fashion, and everyday essentials.
           Enjoy smooth shopping, fast delivery, and top-tier service—all in one place.
-          <br><br>
-          Thank you for choosing Shop X Kart!
         </p>
         <div class="d-flex gap-3 mt-3">
-          <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="text-white-50 fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white-50 fs-5"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white-50 fs-5"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-white-50 fs-5"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
 
-      <!-- Newsletter & Contact -->
-      <div class="col-md-6">
-        <h5 class="text-uppercase mb-3">Stay Updated</h5>
+      <!-- Warranty & Refund Policy -->
+      <div class="col-md-4">
+        <h5 class="text-uppercase mb-3">Warranty & Refund</h5>
+        <ul class="list-unstyled small ps-1">
+          <li><strong>30-Day Warranty:</strong> Covers defects in stitching, fabric, zippers, buttons.</li>
+          <li><strong>Excludes:</strong> Misuse, wear & tear, third-party alterations.</li>
+          <li><strong>Returns:</strong> 14 days, unused with tags.</li>
+          <li><strong>Refunds:</strong> Within 5–7 business days after inspection.</li>
+          <li>Proof of purchase required.</li>
+        </ul>
+      </div>
+
+      <!-- Contact & Newsletter -->
+      <div class="col-md-4">
+        <h5 class="text-uppercase mb-3">Contact Us</h5>
+        <p class="small mb-2"><i class="fas fa-envelope me-2"></i> info@shopxkart.com</p>
+        <p class="small mb-2"><i class="fas fa-phone me-2"></i> +123-456-7890</p>
+        <p class="small mb-3"><i class="fas fa-map-marker-alt me-2"></i> 123 Avenue ABC, Mumbai, India</p>
+
         <form>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Your email" aria-label="Your email">
+          <div class="input-group input-group-sm">
+            <input type="email" class="form-control" placeholder="Subscribe for updates">
             <button class="btn btn-primary" type="submit">Subscribe</button>
           </div>
         </form>
-        <p class="mb-1"><i class="fas fa-envelope me-2"></i> info@shopxkart.com</p>
-        <p class="mb-1"><i class="fas fa-phone me-2"></i> +123-456-7890</p>
-        <p><i class="fas fa-map-marker-alt me-2"></i> 123 Avenue ABC, Mumbai, India</p>
       </div>
     </div>
 
-    <hr class="border-dark mt-4">
+    <hr class="border-secondary mt-4">
 
-    <div class="row">
-      <div class="col-12 text-center pb-2">
-        <p class="mb-0 small">&copy; 2025 Shop X Kart. All rights reserved.</p>
-      </div>
+    <div class="text-center pt-2">
+      <p class="mb-0 small text-white-50">&copy; 2025 Shop X Kart. All rights reserved.</p>
     </div>
   </div>
 </footer>
+
+
 
 <!-- Product Image Switcher (if used on product pages) -->
 <script>

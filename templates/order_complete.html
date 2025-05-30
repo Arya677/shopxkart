@@ -5,7 +5,7 @@
 <style>
     @media (prefers-color-scheme: dark) {
         .invert-on-dark {
-        filter: invert(1) brightness(1.2);
+            filter: invert(1) brightness(1.2);
         }
     }
 
@@ -24,14 +24,13 @@
 </style>
 
 <div class="container-fluid p-4 invoice-container bg-light">
-
     <div class="card shadow p-4">
         <!-- Logo & Info -->
         <div class="text-center mb-4">
             <img src="{% static 'images/logo/logo.png' %}" alt="Logo" class="img-fluid invert-on-dark" style="max-height: 80px;">
             <p class="text-muted mb-0">123 Business St, City, Country</p>
         </div>
-        
+
         <!-- Title -->
         <div class="text-center mb-4">
             <h2 class="text-white bg-primary py-3 rounded">Shopping Invoice</h2>
@@ -42,9 +41,17 @@
             <div class="col-md-6">
                 <h5 class="text-primary text-center"><hr>Order Details<hr></h5>
                 <p>Order Number: <strong>{{ order_number }}</strong></p>
-                <p>Transaction ID: <strong>{{ transID }}</strong></p>
+                
+                {% if payment %}
+                    <p>Transaction ID: <strong>{{ transID }}</strong></p>
+                    <p>Payment Status: <strong class="text-success">{{ payment.status }}</strong></p>
+                    <p>Payment Method: <strong>{{ payment.payment_method }}</strong></p>
+                {% else %}
+                    <p>Payment Method: <strong>Cash on Delivery</strong></p>
+                    <p>Payment Status: <strong class="text-warning">Pending</strong></p>
+                {% endif %}
+
                 <p>Order Date: <strong>{{ order.created_at }}</strong></p>
-                <p>Payment Status: <strong class="text-success">{{ payment.status }}</strong></p>
             </div>
             <div class="col-md-6 text-md">
                 <h5 class="text-primary text-center"><hr>Billed To<hr></h5>

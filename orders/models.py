@@ -15,11 +15,16 @@ class Payment(models.Model):
     
 class Order(models.Model):
     Status = (
-        ('New', 'New'),
-        ('Accepted','Accepted'),
-        ('Completed','Completed'),
-        ('Cancelled','Cancelled'),
+        ('Accepted', 'Accepted'),
+        ('Completed', 'Completed'),
+        ('Cancelled', 'Cancelled'),
     )
+
+    PAYMENT_STATUS = (
+        ('Paid', 'Paid'),
+        ('Unpaid', 'Unpaid'),
+    )
+
     user = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True, blank=True)
     order_number = models.CharField(max_length=20)
@@ -36,6 +41,7 @@ class Order(models.Model):
     order_total = models.FloatField()
     tax = models.FloatField()
     status = models.CharField(max_length=10, choices=Status, default='New')
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS, default='Unpaid')  # ✅ New field
     ip = models.CharField(blank=True, max_length=20)
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -48,7 +54,7 @@ class Order(models.Model):
         return f'{self.address_line_1} {self.address_line_2}'
 
     def __str__(self):
-        return self.first_name        
+        return self.first_name     
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

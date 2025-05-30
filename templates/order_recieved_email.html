@@ -10,7 +10,7 @@ We're happy to let you know that we've received your order. Below are the detail
 
 ─────────────────────────────────────────────────────────
 🆔 Order Number : {{ order.order_number }}
-📅 Order Date   : {{ order.created_at:"F j, Y" }}
+📅 Order Date   : {{ order.created_at|date:"F j, Y" }}
 💰 Total Amount : ${{ order.grand_total|floatformat:2 }}
 ─────────────────────────────────────────────────────────
 
